@@ -1,1 +1,4 @@
-# Backend_CyberManager_v2
+Command to RUN BACKEND:
+  
+  Start:
+    - npm run dev.
