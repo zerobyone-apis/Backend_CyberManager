@@ -1,59 +1,45 @@
+require('dotenv').config();
+
+const DATABASE: string = process.env.DATABASE || '';
+
+export const ORDER_TABLE: string = `${DATABASE}.order`;
+export const USER_TABLE: string = `${DATABASE}.user`;
+export const ENTERPRISE_TABLE: string = `${DATABASE}.enterprise`;
+
 export default class Queries {
-  private table: string = '';
-  private action: string = '';
-  private query: string = '';
-
   private queries: Record<string, any> = {
-    // Usuarios
-    user: {
-      getAll: 'SELECT * FROM usuario',
-      getId: 'SELECT * FROM usuario WHERE idUser = ?',
-      create:
-        'INSERT INTO usuario(username, passwd, cargo, isAdmin, createOn) values(?,?,?,?,?)',
-      update:
-        'UPDATE usuario SET username = ? , passwd = ? , cargo = ? , isAdmin = ? , updateOn = ? WHERE idUser = ?',
-      delete: 'DELETE FROM usuario WHERE idUser = ?',
-      signIn:
-        'SELECT * FROM usuario where username = ? and passwd = ? and cargo = ?'
+    [USER_TABLE]: {
+      getAll: `SELECT * FROM ${USER_TABLE}`,
+      getId: `SELECT * FROM ${USER_TABLE} WHERE id = ?`,
+      create: `INSERT INTO ${USER_TABLE}(username, passwd, charge, isAdmin, createOn) values(?,?,?,?,?)`,
+      update: `UPDATE ${USER_TABLE} SET username = ? , passwd = ? , charge = ? , isAdmin = ? , updateOn = ? WHERE id = ?`,
+      delete: `DELETE FROM ${USER_TABLE} WHERE id = ?`,
+      signIn: `SELECT * FROM ${USER_TABLE} where username = ? and passwd = ?`
     },
 
-    // Pedidos
-    pedido: {
-      getNew:
-        'SELECT idOrden from pedido where nombreCliente = ? and fechaIngreso = ? and articulo = ?',
-      getAll: 'SELECT * FROM pedido',
-      getId: 'SELECT * FROM pedido WHERE idOrden = ?',
-      create: 'INSERT INTO pedido SET ?',
-      setStatus: 'UPDATE pedido SET status = ? where id = ?',
-      update:
-        'UPDATE pedido SET nombreCliente = ?, telCliente = ?, articulo = ?, modelo = ?, marca = ? , fallReportada = ?, observaciones = ?, isCanceled = ?, fechaReparacion = ?, status = ? WHERE idOrden = ?',
-      reparacion:
-        'UPDATE pedido SET nombreCliente = ?, articulo = ?, isCanceled = ?, fechaEntrega = ?, fechaReparacion = ?, reparacion = ? , precio = ? , status = ? WHERE idOrden = ?',
-      delete: 'DELETE FROM pedido WHERE idOrden = ?',
-      cancel: 'UPDATE pedido SET isCanceled = ? WHERE idOrden = ?'
+    [ORDER_TABLE]: {
+      getNew: `SELECT id from ${ORDER_TABLE} where clientName = ? and admissionDate = ? and article = ?`,
+      getAll: `SELECT * FROM ${ORDER_TABLE}`,
+      getId: `SELECT * FROM ${ORDER_TABLE} WHERE id = ?`,
+      create: `INSERT INTO ${ORDER_TABLE} SET ?`,
+      setStatus: `UPDATE ${ORDER_TABLE} SET status = ? where id = ?`,
+      update: `UPDATE ${ORDER_TABLE} SET clientName = ?, clientPhone = ?, article = ?, model = ?, brand = ? , reportedFailure = ?, observations = ?, isCanceled = ?, status = ? WHERE id = ?`,
+      reparacion: `UPDATE ${ORDER_TABLE} SET clientName = ?, article = ?, isCanceled = ?, deliverDate = ?, repairDate = ?, reparation = ?, warranty = ?, price = ? , status = ?, replacementPrice = ? WHERE id = ?`,
+      delete: `DELETE FROM ${ORDER_TABLE} WHERE id = ?`,
+      cancel: `UPDATE ${ORDER_TABLE} SET isCanceled = ? WHERE id = ?`,
+      arqueo: `SELECT SUM(price) as totalPrice, SUM(replacementPrice) as totalReplacementPrice, sum(price - replacementPrice) as netoPrice, count(price) as cantArticles from ${ORDER_TABLE} where (deliverDate BETWEEN ? and ?) and status like '%Entregado%'`
     },
 
-    // Empresa
-    empresa: {
-      getAll: 'SELECT username, idEmpresa FROM empresa',
-      getId:
-        "SELECT e.*, u.cargo from usuario u inner join empresa e on (u.username = e.username and u.idUser = ?) where u.cargo LIKE '%supervisor%' OR u.cargo LIKE '%empleado%' limit 1",
-      create:
-        'INSERT INTO empresa (fechaCreacion,nombre,telefono,celular,fax,direccion,garantia,primerMsjRecibo,segundoMsjRecibo,urlLogo,ultimaActualizacion,username) values(?,?,?,?,?,?,?,?,?,?,?,?)',
-      update:
-        'UPDATE empresa SET nombre = ?, telefono = ?, celular = ?, direccion = ?, garantia = ?, primerMsjRecibo = ?, segundoMsjRecibo = ?, urlLogo = ?, ultimaActualizacion = ? WHERE idEmpresa = ?',
-      delete: 'DELETE FROM empresa WHERE idEmpresa = ?'
+    [ENTERPRISE_TABLE]: {
+      getAll: `SELECT username, idEnterprise FROM ${ENTERPRISE_TABLE}`,
+      getId: `SELECT e.*, u.charge from ${USER_TABLE} u inner join ${ENTERPRISE_TABLE} e on (u.username = e.username and u.id = ?) where u.charge LIKE '%supervisor%' OR u.charge LIKE '%empleado%' limit 1`,
+      create: `INSERT INTO ${ENTERPRISE_TABLE} (createdDate,enterpriseName,phone,cellphone,fax,location,warranty,firstMessage,secondMessage,urlLogo,lastUpdate,username,mail) values(?,?,?,?,?,?,?,?,?,?,?,?,?)`,
+      update: `UPDATE ${ENTERPRISE_TABLE} SET enterpriseName = ?, phone = ?, cellphone = ?, location = ?, enterpriseRules = ?, firstMessage = ?, secondMessage = ?, urlLogo = ?, lastUpdate = ?, email = ? WHERE id = ?`,
+      delete: `DELETE FROM ${ENTERPRISE_TABLE} WHERE id = ?`
     }
   };
 
-  constructor() {
-    this.table = '';
-    this.action = '';
-    this.query = '';
-  }
-
   public getQuery(tableName: string, actionQuery: string) {
-    console.log('query: ' + this.queries[tableName][actionQuery]);
     try {
       return {
         table: tableName,
@@ -61,7 +47,7 @@ export default class Queries {
         query: this.queries[tableName][actionQuery]
       };
     } catch (error) {
-      console.log('Error in getQuery :' + error);
+      console.log(`Error in getQuery :` + error);
       return null;
     }
   }

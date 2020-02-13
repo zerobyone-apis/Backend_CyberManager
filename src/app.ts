@@ -2,13 +2,12 @@ import Express, { Application } from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
 import http from 'http';
-
 import MysqlConnection from '../sql/connection/MysqlConnection';
+import Enterprise from './routes/Enterprise.routes';
+import Order from './routes/Order.routes';
+import User from './routes/User.routes';
+import { ENTERPRISE_ROUTE, USER_ROUTE, ORDER_ROUTE } from './types/Routes.type'
 
-//Import Routes
-import empresa from './routes/empresa.routes';
-import pedido from './routes/pedido.routes';
-import routes from './routes/user.routes';
 export class App {
   private app: Application;
 
@@ -16,35 +15,43 @@ export class App {
     this.app = Express();
     this.app.use(cors());
     const server = http.createServer(this.app);
-    
+
     MysqlConnection.connect();
-    
+
     this.settings();
     this.middlewares();
     this.routes();
   }
 
-  //Settings
   settings() {
     this.app.set('port', this.port || process.env.PORT || 3000);
   }
 
-  //Middlewares
   middlewares() {
     this.app.use(morgan('dev'));
     this.app.use(Express.json());
   }
 
-  //Routes
   routes() {
-    this.app.use('/empresa', empresa);
-    this.app.use('/pedido', pedido);
-    this.app.use('/user', routes);
+    this.app.use(ENTERPRISE_ROUTE, Enterprise);
+    this.app.use(ORDER_ROUTE, Order);
+    this.app.use(USER_ROUTE, User);
   }
 
-  //Functions
   async listen() {
     await this.app.listen(this.app.get('port'));
-    console.log(`Server on port ${this.app.get('port')}`);
+    console.log('')
+    console.log('══════════════════════════')
+    console.log('')
+    console.log(' ╦══╦      ╦═╦   ╦══╦');
+    console.log(' ╠═╝╠═╦═╦═╗║░╩╦╦╗║╔╗╠═╦═╗ ');
+    console.log(' ║╔═╣╩╣╠╣║║║░░║║║║╚╝║║║╩╣ ');
+    console.log(' ╚══╩═╩╝╚═╝╚══╬╗║╚══╩╩╩═╝ ');
+    console.log('              ╩═╩')
+
+    console.log(` CyberManager backend is ready on port ${this.app.get('port')}`);
+    console.log('')
+    console.log('══════════════════════════')
+    console.log('')
   }
 }
