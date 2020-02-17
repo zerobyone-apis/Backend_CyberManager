@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "dist/src/app",
   "scripts": {
-    "dev": "nodemon src/index.ts --exec ts-node",
+    "start": "nodemon src/index.ts --exec ts-node",
     "build": "tsc",
     "serve": "concurrently \"tsc -w\" \"nodemon ./dist/src/app.js\""
   },
