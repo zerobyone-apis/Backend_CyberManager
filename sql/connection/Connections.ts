@@ -35,7 +35,9 @@ export default class MysqlConnection {
       password: process.env.P_PASSWORD,
       database: process.env.P_DATABASE,
       port: parseInt(process.env.P_PORTDB || '5432'),
-      ssl: true
+      ssl: {
+        rejectUnauthorized: false,
+    },
     });
   }
 }
