@@ -117,7 +117,8 @@ function findUserByID(req, res) {
         if (resultUser.statusCode == 200) {
             if (resultUser.value.rows != []) {
                 return res.status(200).json({
-                    message: `Busqueda exitosa id user -> : ${id}`
+                    message: `Busqueda exitosa id user -> : ${id}`,
+                    data: resultUser.value.rows[0]
                 });
             }
             else {

@@ -9,7 +9,7 @@ function selectDb(flagToOn) {
         : process.env.M_DATABASE;
 }
 const DATABASE = selectDb(app_1.dbConnectTypePostgres);
-console.log('Datanase connected is -> ', DATABASE);
+console.log('Database connected is -> ', DATABASE);
 exports.ORDER_TABLE = `orders`;
 exports.USER_TABLE = `users`;
 exports.ENTERPRISE_TABLE = `enterprise`;
@@ -18,9 +18,9 @@ class Queries {
         this.queries = {
             [exports.USER_TABLE]: {
                 getAll: `SELECT * FROM ${exports.USER_TABLE}`,
-                getId: `SELECT * FROM ${exports.USER_TABLE} WHERE id = $1`,
+                getId: `SELECT * FROM ${exports.USER_TABLE} WHERE iduser = $1`,
                 create: `INSERT INTO ${exports.USER_TABLE}(username, passwd, charge, isAdmin, createOn, enterprise) values($1,$2,$3,$4,$5,$6)`,
-                update: `UPDATE ${exports.USER_TABLE} SET username = $1 , passwd = $2 , charge = $3 , isAdmin = $4 , updateOn = $5 WHERE id = $6`,
+                update: `UPDATE ${exports.USER_TABLE} SET username = $1 , passwd = $2 , charge = $3 , isAdmin = $4 , updateOn = $5 WHERE iduser = $6`,
                 delete: `DELETE FROM ${exports.USER_TABLE} WHERE iduser = $1`,
                 signIn: `SELECT * FROM ${exports.USER_TABLE} where username = $1 and passwd = $2`
             },

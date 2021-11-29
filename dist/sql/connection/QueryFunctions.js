@@ -18,23 +18,25 @@ const app_1 = require("../../src/app");
 class QueryFunctions {
     query(queryData, data) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log('');
-            console.log('');
-            console.log('-> START QUERY. ' +
+            console.log("");
+            console.log("");
+            console.log("-> START QUERY. " +
                 `[ ${queryData.action} ]` +
-                ' of table ' +
+                " of table " +
                 `[ ${queryData.table} ]: `);
             let query = queryData.query;
-            let reader = '';
+            let reader = "";
             let index = 0;
             for (let i = 0; i < queryData.query.length; i++) {
-                if (query[i] === '?' || query[i] === '$') {
+                if (query[i] === "?" || query[i] === "$") {
                     switch (typeof data[index]) {
-                        case 'number':
-                        case 'boolean':
+                        case "number":
                             reader += data[index];
                             break;
-                        case 'string':
+                        case "boolean":
+                            reader += data[index];
+                            break;
+                        case "string":
                             reader += `'${data[index]}'`;
                             break;
                     }
@@ -46,13 +48,13 @@ class QueryFunctions {
             }
             console.log(reader);
             console.log(data);
-            console.log('total of items in data: ', data.length);
-            console.log('total of ? or $ in query: ', index);
-            console.log('END_QUERY');
+            console.log("total of items in data: ", data.length);
+            console.log("total of ? or $ in query: ", index);
+            console.log("END_QUERY");
             try {
                 let result = yield new Promise((resolve, reject) => {
                     if (app_1.dbConnectTypePostgres) {
-                        console.log('Query -> Postgres connection ', queryData);
+                        console.log("Query -> Postgres connection ", queryData);
                         Connections_1.default.connPost.query(queryData.query, data, (err, result) => {
                             if (!err) {
                                 resolve(new ResultObject_1.default(200, result));
@@ -63,7 +65,7 @@ class QueryFunctions {
                         });
                     }
                     else if (app_1.dbConnectTypeMysql) {
-                        console.log(' Query -> MySQL connection ', queryData);
+                        console.log(" Query -> MySQL connection ", queryData);
                         Connections_1.default.conn.query(queryData.query, data, (err, result, fieldPacket) => {
                             if (!err) {
                                 resolve(new ResultObject_1.default(200, result));
@@ -73,7 +75,7 @@ class QueryFunctions {
                             }
                         });
                     }
-                }).catch(err => {
+                }).catch((err) => {
                     throw err;
                 });
                 return new ResultObject_1.default(result.statusCode, result.value);
@@ -85,15 +87,15 @@ class QueryFunctions {
     }
     get(queryData, data) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log('Get -> QueryData: ', queryData.query);
-            console.log('() _-> ', data);
+            console.log("Get -> QueryData: ", queryData.query);
+            console.log("() _-> ", data);
             try {
                 console.log(data);
-                console.log('total of items in data: ', data.length);
-                console.log('END_QUERY');
+                console.log("total of items in data: ", data.length);
+                console.log("END_QUERY");
                 const rows = yield new Promise((resolve, reject) => {
                     if (app_1.dbConnectTypePostgres) {
-                        console.log('Get -> Postgres connection ', queryData);
+                        console.log("Get -> Postgres connection ", queryData);
                         Connections_1.default.connPost.query(queryData.query, data, (err, result) => {
                             if (!err) {
                                 resolve(new ResultObject_1.default(200, result));
@@ -104,7 +106,7 @@ class QueryFunctions {
                         });
                     }
                     else if (app_1.dbConnectTypeMysql) {
-                        console.log('GET -> Mysql connection ', queryData);
+                        console.log("GET -> Mysql connection ", queryData);
                         Connections_1.default.conn.query(queryData.query, data, (err, result, fieldPacket) => {
                             if (!err) {
                                 resolve(new ResultObject_1.default(200, result));
@@ -114,7 +116,7 @@ class QueryFunctions {
                             }
                         });
                     }
-                }).catch(err => {
+                }).catch((err) => {
                     throw err;
                 });
                 console.log(rows);
@@ -122,12 +124,12 @@ class QueryFunctions {
             }
             catch (ex) {
                 const fail = new ResultObject_1.default(403, {
-                    'Error ': 'table ' +
+                    "Error ": "table " +
                         queryData.table +
-                        ' - action ' +
+                        " - action " +
                         queryData.action +
-                        ' :' +
-                        String(ex)
+                        " :" +
+                        String(ex),
                 });
                 console.log(fail);
                 return fail;
@@ -136,12 +138,12 @@ class QueryFunctions {
     }
     action(queryData, data) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log('Action query data: ', queryData.query);
-            console.log('() -> ', data);
+            console.log("Action query data: ", queryData.query);
+            console.log("() -> ", data);
             try {
                 yield new Promise((resolve, reject) => {
                     if (app_1.dbConnectTypePostgres) {
-                        console.log('Action -> Postgres connection ', queryData);
+                        console.log("Action -> Postgres connection ", queryData);
                         Connections_1.default.connPost.query(queryData.query, data, (err, result) => {
                             if (!err) {
                                 resolve(new ResultObject_1.default(200, result));
@@ -152,7 +154,7 @@ class QueryFunctions {
                         });
                     }
                     else if (app_1.dbConnectTypeMysql) {
-                        console.log('Action -> Mysql connection ', queryData);
+                        console.log("Action -> Mysql connection ", queryData);
                         Connections_1.default.conn.query(queryData.query, data, (err, result, fieldPacket) => {
                             if (!err) {
                                 resolve(new ResultObject_1.default(200, result));
@@ -162,19 +164,19 @@ class QueryFunctions {
                             }
                         });
                     }
-                }).catch(err => {
+                }).catch((err) => {
                     throw err;
                 });
-                return new ResultObject_1.default(200, 'sucess ' + queryData.action + ' in table' + queryData.table);
+                return new ResultObject_1.default(200, "sucess " + queryData.action + " in table" + queryData.table);
             }
             catch (ex) {
                 const fail = new ResultObject_1.default(403, {
-                    'Error ': 'table ' +
+                    "Error ": "table " +
                         queryData.table +
-                        ' - action ' +
+                        " - action " +
                         queryData.action +
-                        ' :' +
-                        String(ex)
+                        " :" +
+                        String(ex),
                 });
                 console.log(fail);
                 return fail;

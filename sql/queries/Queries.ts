@@ -6,7 +6,7 @@ function selectDb(flagToOn: string) {
     : process.env.M_DATABASE;
 }
 const DATABASE = selectDb(dbConnectTypePostgres);
-console.log('Datanase connected is -> ', DATABASE);
+console.log('Database connected is -> ', DATABASE);
 export const ORDER_TABLE: string = `orders`;
 export const USER_TABLE: string = `users`;
 export const ENTERPRISE_TABLE: string = `enterprise`;
@@ -20,11 +20,12 @@ export default class Queries {
       //update: `UPDATE ${USER_TABLE} SET username = ? , passwd = ? , charge = ? , isAdmin = ? , updateOn = ? WHERE id = ?`,
       //delete: `DELETE FROM ${USER_TABLE} WHERE id = ?`,
       //signIn: `SELECT * FROM ${USER_TABLE} where username = ? and passwd = ?`
+
       //      Postgres Queries
       getAll: `SELECT * FROM ${USER_TABLE}`,
-      getId: `SELECT * FROM ${USER_TABLE} WHERE id = $1`,
+      getId:  `SELECT * FROM ${USER_TABLE} WHERE iduser = $1`,
       create: `INSERT INTO ${USER_TABLE}(username, passwd, charge, isAdmin, createOn, enterprise) values($1,$2,$3,$4,$5,$6)`,
-      update: `UPDATE ${USER_TABLE} SET username = $1 , passwd = $2 , charge = $3 , isAdmin = $4 , updateOn = $5 WHERE id = $6`,
+      update: `UPDATE ${USER_TABLE} SET username = $1 , passwd = $2 , charge = $3 , isAdmin = $4 , updateOn = $5 WHERE iduser = $6`,
       delete: `DELETE FROM ${USER_TABLE} WHERE iduser = $1`,
       signIn: `SELECT * FROM ${USER_TABLE} where username = $1 and passwd = $2`
     },

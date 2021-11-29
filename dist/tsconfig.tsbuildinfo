@@ -522,12 +522,12 @@
         "affectsGlobalScope": false
       },
       "../sql/connection/queryfunctions.ts": {
-        "version": "50cb550bec2aeb3435bc1cdbb406deb26f47ac9974f71a16950e65cb79531c1c",
-        "signature": "b78165768bc10ccd6053fa20b1062fa54c0c308558a5b2bea2f0253335fb1456",
+        "version": "bd70c3abcc35ecc44b09c0a3a209772449d3f5b4edfd5e1c7ad384e0aa6c53b8",
+        "signature": "b582aed0d72a1b744d3c88dd7d3762d970005943488d5ce8cf1191d1ba70e6c4",
         "affectsGlobalScope": false
       },
       "../sql/queries/queries.ts": {
-        "version": "df727c9b90209a52804e92a396de06004dcf2eb134cec6292f368e17022a65a2",
+        "version": "1db7a6a3879cd932934ab79c657a859f01b6160492ae0e283f349dcd9de33951",
         "signature": "426c3fc2c3fa6252cb46cec4a32d328fdea8c4a9d09cea088d52c5f6c68af5a3",
         "affectsGlobalScope": false
       },
@@ -572,7 +572,7 @@
         "affectsGlobalScope": false
       },
       "../src/controllers/user.controllers.ts": {
-        "version": "d71815834ea69f1c366d7ed7c592ed8a6d9488d0915ae2806ad9a0bc92e6b0ab",
+        "version": "2e0b69ef616d41e908e8c636191dc0d5f06a5b9855066ee753a08006480b8942",
         "signature": "a8da6c86f357bb47609bc3a1810935db376a2043a2d83d54bbd5a25134410f87",
         "affectsGlobalScope": false
       },

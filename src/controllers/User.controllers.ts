@@ -8,7 +8,7 @@ let queryFunctions: QueryFunctions = new QueryFunctions();
 let queries: Queries = new Queries();
 
 export async function getUsers(req: Request, res: Response): Promise<Response> {
-  let result = await queryFunctions.query(
+  let result: any = await queryFunctions.query(
     queries.getQuery(USER_TABLE, 'getAll'),
     []
   );
@@ -31,7 +31,7 @@ export async function createUser(req: Request, res: Response) {
     moment().format('YYYY-MM-DD HH:mm:ss'),
     enterpriseId
   ];
-  let result: ResultObject = await queryFunctions.query(
+  let result: any = await queryFunctions.query(
     queries.getQuery(USER_TABLE, 'create'),
     queryParams
   );
@@ -52,7 +52,7 @@ export async function updateUser(req: Request, res: Response) {
     moment().format('YYYY-MM-DD HH:mm:ss'),
     id
   ];
-  let result: ResultObject = await queryFunctions.query(
+  let result: any = await queryFunctions.query(
     queries.getQuery(USER_TABLE, 'update'),
     queryParams
   );
@@ -65,7 +65,7 @@ export async function updateUser(req: Request, res: Response) {
 }
 export async function deleteUser(req: Request, res: Response) {
   const id = parseInt(req.params.id);
-  let result: ResultObject = await queryFunctions.query(
+  let result: any = await queryFunctions.query(
     queries.getQuery(USER_TABLE, 'delete'),
     [id]
   );
@@ -80,14 +80,15 @@ export async function deleteUser(req: Request, res: Response) {
 }
 export async function findUserByID(req: Request, res: Response) {
   const id = parseInt(req.params.id);
-  const resultUser: ResultObject = await queryFunctions.query(
+  const resultUser: any = await queryFunctions.query(
     queries.getQuery(USER_TABLE, 'getId'),
     [id]
   );
   if (resultUser.statusCode == 200) {
     if (resultUser.value.rows != []) {
       return res.status(200).json({
-        message: `Busqueda exitosa id user -> : ${id}`
+        message: `Busqueda exitosa id user -> : ${id}`,
+        data: resultUser.value.rows[0]
       });
     } else {
       return res.status(404).json(`No se encontro usuario con el id: ${id}`);
@@ -100,7 +101,7 @@ export async function findUserByID(req: Request, res: Response) {
 export async function signIn(req: Request, res: Response) {
   const newUser: IUser = req.body.data;
   const paramsQuery = [newUser.username, newUser.passwd];
-  const result: ResultObject = await queryFunctions.query(
+  const result: any = await queryFunctions.query(
     queries.getQuery(USER_TABLE, 'signIn'),
     paramsQuery
   );
