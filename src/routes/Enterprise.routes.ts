@@ -8,6 +8,7 @@ import {
 } from '../controllers/Enterprise.controllers';
 const router = Router();
 
+// Que facil era express 😄
 router
   .route('/')
   .get(getEnterprise)
