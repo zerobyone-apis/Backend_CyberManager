@@ -23,7 +23,7 @@ export default class Queries {
 
       //      Postgres Queries
       getAll: `SELECT * FROM ${USER_TABLE}`,
-      getId:  `SELECT * FROM ${USER_TABLE} WHERE iduser = $1`,
+      getId: `SELECT * FROM ${USER_TABLE} WHERE iduser = $1`,
       create: `INSERT INTO ${USER_TABLE}(username, passwd, charge, isAdmin, createOn, enterprise) values($1,$2,$3,$4,$5,$6)`,
       update: `UPDATE ${USER_TABLE} SET username = $1 , passwd = $2 , charge = $3 , isAdmin = $4 , updateOn = $5 WHERE iduser = $6`,
       delete: `DELETE FROM ${USER_TABLE} WHERE iduser = $1`,
@@ -44,6 +44,7 @@ export default class Queries {
       // Postgres Queries
       getNew: `SELECT id from ${ORDER_TABLE} where clientName = $1 and admissionDate = $2 and article = $3`,
       getAll: `SELECT * FROM ${ORDER_TABLE}`,
+      getByPagination: `SELECT * FROM ${ORDER_TABLE} order by admissionDate LIMIT $1 OFFSET $2`,
       getId: `SELECT * FROM ${ORDER_TABLE} WHERE id = $1`,
       create: `INSERT INTO ${ORDER_TABLE}(clientname, clientphone, article, model, brand, admissiondate, reportedfailure, observations, iscanceled, status) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`,
       setStatus: `UPDATE ${ORDER_TABLE} SET status = $1 where id = $2`,

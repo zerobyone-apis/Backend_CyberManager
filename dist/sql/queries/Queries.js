@@ -27,6 +27,7 @@ class Queries {
             [exports.ORDER_TABLE]: {
                 getNew: `SELECT id from ${exports.ORDER_TABLE} where clientName = $1 and admissionDate = $2 and article = $3`,
                 getAll: `SELECT * FROM ${exports.ORDER_TABLE}`,
+                getByPagination: `SELECT * FROM ${exports.ORDER_TABLE} order by admissionDate LIMIT $1 OFFSET $2`,
                 getId: `SELECT * FROM ${exports.ORDER_TABLE} WHERE id = $1`,
                 create: `INSERT INTO ${exports.ORDER_TABLE}(clientname, clientphone, article, model, brand, admissiondate, reportedfailure, observations, iscanceled, status) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`,
                 setStatus: `UPDATE ${exports.ORDER_TABLE} SET status = $1 where id = $2`,

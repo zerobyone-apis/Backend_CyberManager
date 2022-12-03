@@ -7,6 +7,9 @@ router
     .route('/')
     .get(Order_controllers_1.getOrders)
     .post(Order_controllers_1.createOrder);
+router
+    .route('/pagination')
+    .get(Order_controllers_1.getOrderByPagination);
 router.route('/arqueo').patch(Order_controllers_1.doArqueo);
 router
     .route('/:id')

@@ -23,6 +23,22 @@ export async function getOrders(req: Request, res: Response) {
     return res.status(result.statusCode).json(result.value.rows);
   }
 }
+export async function getOrderByPagination(req: Request, res: Response) {
+  let result: {
+    statusCode: number;
+    value: any;
+  } = await queryFunctions.query(
+    queries.getQuery(ORDER_TABLE, 'getByPagination'),
+    [req.body.limit, req.body.offset]
+  );
+  if (result.statusCode == 200) {
+    return res.status(200).json(result.value.rows);
+  } else {
+    console.log(`Error cargando todos los pedidos`);
+    return res.status(result.statusCode).json(result.value.rows);
+  }
+}
+
 
 export async function findByID(req: Request, res: Response) {
   console.log('req body data ', req.body.data);

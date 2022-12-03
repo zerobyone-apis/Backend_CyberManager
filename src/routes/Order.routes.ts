@@ -8,7 +8,8 @@ import {
   cancelOrder,
   changeStatus,
   updateRepairOrder,
-  doArqueo
+  doArqueo,
+  getOrderByPagination
 } from '../controllers/Order.controllers';
 const router = Router();
 
@@ -16,6 +17,10 @@ router
   .route('/')
   .get(getOrders)
   .post(createOrder);
+
+router
+  .route('/pagination')
+  .get(getOrderByPagination);
 
 router.route('/arqueo').patch(doArqueo);
 

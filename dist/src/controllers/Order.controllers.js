@@ -31,7 +31,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteOrder = exports.cancelOrder = exports.changeStatus = exports.doArqueo = exports.updateRepairOrder = exports.updateOrder = exports.createOrder = exports.findByID = exports.getOrders = void 0;
+exports.deleteOrder = exports.cancelOrder = exports.changeStatus = exports.doArqueo = exports.updateRepairOrder = exports.updateOrder = exports.createOrder = exports.findByID = exports.getOrderByPagination = exports.getOrders = void 0;
 const QueryFunctions_1 = __importDefault(require("../../sql/connection/QueryFunctions"));
 const Queries_1 = __importStar(require("../../sql/queries/Queries"));
 const queryFunctions = new QueryFunctions_1.default();
@@ -50,6 +50,19 @@ function getOrders(req, res) {
     });
 }
 exports.getOrders = getOrders;
+function getOrderByPagination(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        let result = yield queryFunctions.query(queries.getQuery(Queries_1.ORDER_TABLE, 'getByPagination'), [req.body.limit, req.body.offset]);
+        if (result.statusCode == 200) {
+            return res.status(200).json(result.value.rows);
+        }
+        else {
+            console.log(`Error cargando todos los pedidos`);
+            return res.status(result.statusCode).json(result.value.rows);
+        }
+    });
+}
+exports.getOrderByPagination = getOrderByPagination;
 function findByID(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         console.log('req body data ', req.body.data);
